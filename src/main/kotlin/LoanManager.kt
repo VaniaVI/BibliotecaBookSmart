@@ -6,18 +6,18 @@ object LoanManager {
 
     // Inicializa el catálogo de libros disponibles en la biblioteca
     fun initializeCatalog(): List<Book> = listOf(
-        PhysicalBook("Estructuras de Datos", "Goodrich", "Informática", basePrice = 12990, loanDays = 7, isReference = false),
-        PhysicalBook("Diccionario Enciclopédico", "Varios", "Referencia", basePrice = 15990, loanDays = 0, isReference = true),
-        DigitalBook("Programación en Kotlin", "JetBrains", "Programación", basePrice = 9990, loanDays = 10, drm = true),
-        DigitalBook("Algoritmos Básicos", "Cormen", "Algoritmos", basePrice = 11990, loanDays = 10, drm = false)
+        PhysicalBook("Estructuras de Datos", "Goodrich", "Informatica", basePrice = 12990, loanDays = 7, isReference = false),
+        PhysicalBook("Diccionario Enciclopedico", "Varios", "Referencia", basePrice = 15990, loanDays = 0, isReference = true),
+        DigitalBook("Programacion en Kotlin", "JetBrains", "Programacion", basePrice = 9990, loanDays = 10, drm = true),
+        DigitalBook("Algoritmos Basicos", "Cormen", "Algoritmos", basePrice = 11990, loanDays = 10, drm = false)
     )
 
     // Aplica descuento según el tipo de usuario (estudiante, docente, externo)
     fun applyDiscount(subtotal: Int, userType: String): Int {
         // Define el porcentaje de descuento según el tipo de usuario
         val discountRate = when (userType.lowercase()) {
-            "student" -> 0.10  // 10% de descuento
-            "teacher" -> 0.15  // 15% de descuento
+            "estudiante" -> 0.10  // 10% de descuento
+            "docente" -> 0.15  // 15% de descuento
             else -> 0.0        // Sin descuento para externos
         }
         // Aplica el descuento al subtotal y retorna el valor final

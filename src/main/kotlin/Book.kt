@@ -1,5 +1,14 @@
 package org.example
 
+import java.text.NumberFormat
+import java.util.Locale
+
+// Helper function to format CLP
+fun Int.toCLP(): String {
+    val format = NumberFormat.getCurrencyInstance(Locale("es", "CL"))
+    return format.format(this)
+}
+
 open class Book(
     val title: String,
     val author:String,
@@ -20,7 +29,7 @@ open class Book(
     open fun finalCost(): Int = basePrice
 
     open fun description(): String =
-        "$title - $author | Category: $category | $loanDays days | Base price: $basePrice"
+        "Titulo: $title | Categoria: $category | Precio Base: ${finalCost().toCLP()}"
 }
 
 // Clase hija que representa un libro físico, que puede ser de consulta o prestable
@@ -48,7 +57,7 @@ class PhysicalBook(
     // descripcion basada en el estado de referencia
     override fun description(): String {
         val type = if (isReference) "Reference (NOT loanable)" else "Physical"
-        return "[$type] " + super.description()
+        return super.description() +"  $type " + if (isReference) " (solo consulta)" else ""
     }
 }
 
@@ -72,6 +81,6 @@ class DigitalBook(
     // Se añade una descripcion dependiendo del estado del DRM
     override fun description(): String {
         val label = if (drm) "Digital (with DRM)" else "Digital (no DRM)"
-        return "[$label] " + super.description()
+        return super.description() + " $label  "
     }
 }
