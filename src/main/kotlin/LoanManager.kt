@@ -13,14 +13,16 @@ object LoanManager {
     )
 
     // Aplica descuento según el tipo de usuario (estudiante, docente, externo)
-    fun applyDiscount(subtotal: Int, userType: String): Int {
-        // Define el porcentaje de descuento según el tipo de usuario
-        val discountRate = when (userType.lowercase()) {
-            "estudiante" -> 0.10  // 10% de descuento
-            "docente" -> 0.15  // 15% de descuento
-            else -> 0.0        // Sin descuento para externos
+    fun getDiscountRate(userType: String): Double {
+        return when (userType.lowercase()) {
+            "estudiante" -> 0.10
+            "docente" -> 0.15
+            else -> 0.0
         }
-        // Aplica el descuento al subtotal y retorna el valor final
+    }
+
+    fun applyDiscount(subtotal: Int, userType: String): Int {
+        val discountRate = getDiscountRate(userType)
         return (subtotal * (1 - discountRate)).toInt()
     }
 
@@ -53,6 +55,6 @@ object LoanManager {
 
         // Calcula el total sin aplicar descuentos
         val total = loanedBooks.sumOf { it.finalCost() }
-        println("Total sin descuentos: $total")
+        println("Total sin descuentos: ${total.toCLP()}")
     }
 }

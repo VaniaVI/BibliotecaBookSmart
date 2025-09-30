@@ -33,6 +33,8 @@ fun main() = runBlocking {
     // 3. User type
     println("\nIndica tu tipo de usuario (estudiante/docente/externo):")
     val userType = readln().lowercase()
+    val discount = LoanManager.getDiscountRate(userType)
+
 
 
     // 4. Loan validations
@@ -51,12 +53,15 @@ fun main() = runBlocking {
         if (selectedBooks.isNotEmpty()) {
             LoanManager.processLoan(selectedBooks[0])
         } else {
-            LoanState.Error("No se seleccionaron libros")
+            println("Advertencia: No se seleccionaron libros")
+            println("Estado: ${LoanState.Error("No se seleccionaron libros")}")
         }
     } catch (e: Exception) {
-        println("Error al procesar el prestamo: ${e.message}")
-        LoanState.Error("Fallo en el prestamo")
+        println("Error al procesar el préstamo: ${e.message}")
+        LoanState.Error("Fallo en el préstamo")
     }
+
+    println("Estado: $state")
 
     // 6. Calculate subtotal and apply discount
     val subtotal = selectedBooks.sumOf { it.finalCost() }
@@ -77,10 +82,10 @@ fun main() = runBlocking {
     // 8. Generate report
     println("\n=== RESUMEN DEL PRESTAMO ===")
     LoanManager.generateReport(selectedBooks)
-    println("Subtotal: ${subtotal.toCLP()}")
-    println("Total con descuento ($userType): ${totalWithDiscount.toCLP()}")
+    println("\nSubtotal: ${subtotal.toCLP()}")
+    println("Total con descuento $userType ${(discount * 100).toInt()}% $: ${totalWithDiscount.toCLP()}")
     println("Multa por retraso ($delayDays dias): +${penalty.toCLP()}")
-    println("Total final: ${(totalWithDiscount + penalty).toCLP()}")
+    println("\nTOTAL: ${(totalWithDiscount + penalty).toCLP()}")
 
     println("\nEstado final: $state")
     println("Tiempo estimado para retiro/activacion digital: 3 s.")
